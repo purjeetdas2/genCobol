@@ -12,6 +12,9 @@ black = "*"
 python-dotenv = "*"
 streamlit = "*"
 pandas = "*"
+openai = "*"
+pypandoc = "*"
+markdown2 = "*"
 
 [dev-packages]
 

@@ -1,5 +1,5 @@
 import streamlit as st
-from db.database import verify_user
+from db.user_management import verify_user
 
 def login_screen():
     st.title("Login")
