@@ -1,0 +1,63 @@
+Generated Forward Engineering Documentation
+
+```java
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class EDI850Processor {
+
+    public static void main(String[] args) {
+        String inputFilePath = "edi850.csv";
+        String outputFilePath = "output.csv";
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                processRecord(line, writer);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void processRecord(String inputRecord, BufferedWriter writer) throws IOException {
+        // Extract fields from the input record
+        String poOrderID = inputRecord.substring(0, 15).trim();
+        String poBuyerID = inputRecord.substring(16, 31).trim();
+        String poDate = inputRecord.substring(32, 39).trim();
+        String poItemID = inputRecord.substring(40, 49).trim();
+        int poItemQuantity = Integer.parseInt(inputRecord.substring(50, 55).trim());
+        double poItemUnitPrice = Double.parseDouble(inputRecord.substring(56, 64).trim());
+
+        if (validateRecord(poItemQuantity, poItemUnitPrice)) {
+            transformAndWriteRecord(poOrderID, poBuyerID, poDate, poItemID, poItemQuantity, poItemUnitPrice, writer);
+        } else {
+            System.out.println("Invalid record: " + poOrderID);
+        }
+    }
+
+    private static boolean validateRecord(int itemQuantity, double itemUnitPrice) {
+        return itemQuantity >= 0 && itemUnitPrice >= 0;
+    }
+
+    private static void transformAndWriteRecord(String poOrderID, String poBuyerID, String poDate,
+                                                String poItemID, int poItemQuantity, double poItemUnitPrice,
+                                                BufferedWriter writer) throws IOException {
+        double itemTotalPrice = poItemQuantity * poItemUnitPrice;
+
+        // Create the output record
+        String outputRecord = String.format("%-15s%-15s%-8s%-10s%05d%010.2f%n",
+                poOrderID, poBuyerID, poDate, poItemID, poItemQuantity, itemTotalPrice);
+
+        writer.write(outputRecord);
+    }
+}
+```  
+
+This Java code provides a basic structure for reading input records from an "edi850.csv" file, processing each record according to the COBOL rules defined, validating the records, transforming valid records, and writing the transformed records to an "output.csv" file. The code uses BufferedReader and BufferedWriter for file handling and includes methods for record processing, validation, transformation, and writing. Further details can be added as needed to handle different aspects of the specified rules.

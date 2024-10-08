@@ -181,7 +181,7 @@ def generate_reverse_engineering(cobol_code,job_name):
     response = None
     if generated_doc:
         file_path = os.path.join(os.getcwd(),generated_doc[0])
-        st.write("Contents of the directory:", file_path)
+
 
         if file_path:
             with open(file_path, "rb") as f:
@@ -196,6 +196,8 @@ def generate_reverse_engineering(cobol_code,job_name):
         update_job_with_generated_doc(job_name,file_path)
         print("Done with reverse engineering")
 
+    st.markdown(response.decode('utf-8'))
+    """
     if is_pandoc_installed():
         import pypandoc
         with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as tmp_docx:
@@ -210,6 +212,7 @@ def generate_reverse_engineering(cobol_code,job_name):
         os.unlink(tmp_docx.name)
     else:
         st.error("Pandoc is not installed. Please install Pandoc to enable DOCX download.")
+    """
 
 
 def generate_forward_engineering(job_name, task, configurations):
@@ -228,7 +231,8 @@ def generate_forward_engineering(job_name, task, configurations):
             f.write(response.encode('utf-8'))
         update_job_with_generated_doc(job_name, file_path)
         print("Done with forward engineering")
-
+    st.markdown(response)
+    """
     if is_pandoc_installed():
         import pypandoc
         with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as tmp_docx:
@@ -243,7 +247,7 @@ def generate_forward_engineering(job_name, task, configurations):
         os.unlink(tmp_docx.name)
     else:
         st.error("Pandoc is not installed. Please install Pandoc to enable DOCX download.")
-
+    """
 
 if __name__ == "__main__":
     main()
