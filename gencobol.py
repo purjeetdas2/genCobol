@@ -187,6 +187,8 @@ def generate_reverse_engineering(cobol_code,job_name):
     else:
         response = reverse_engineer_cobol_program(cobol_code)
         file_path = os.path.join("uploaded_artifacts", f"{job_name}-reverse-engineering.txt")
+        st.write("Contents of the directory:", os.listdir())
+        st.write("Attempting to open:", file_path)
         with open(file_path, "wb") as f:
             f.write(response.encode('utf-8'))
         update_job_with_generated_doc(job_name,file_path)
