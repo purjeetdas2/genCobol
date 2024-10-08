@@ -181,6 +181,9 @@ def generate_reverse_engineering(cobol_code,job_name):
     response = None
     if generated_doc:
         file_path = os.path.join(generated_doc[0])
+        st.write("Contents of the directory:", os.listdir())
+        st.write("Attempting to open:", file_path)
+
         if file_path:
             with open(file_path, "rb") as f:
                 response = f.read()
