@@ -6,15 +6,21 @@ def login_screen():
 
     username = st.text_input("Username")
     password = st.text_input("Password", type='password')
-
+    st.button("Login", on_click= checklogin(username,password))
+    """
     if st.button("Login"):
-        user = verify_user(username, password)
-        if user:
-            st.session_state.logged_in = True
-            st.session_state.username = username
-            st.success("You have successfully logged in!")
-        else:
+        checklogin(password, username)
+    """
+
+def checklogin(password, username):
+    user = verify_user(username, password)
+    if user:
+        st.session_state.logged_in = True
+        st.session_state.username = username
+    else:
+        if username and password:
             st.error("Incorrect username or password")
+
 
 def logout():
     if st.session_state.logged_in:

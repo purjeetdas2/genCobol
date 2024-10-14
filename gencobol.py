@@ -174,38 +174,41 @@ def main():
         st.session_state.logged_in = False
 
     if st.session_state.logged_in:
-        # Place option menu in the sidebar
-        with st.sidebar:
-            selected_tab = option_menu(
-                "Navigation",
-                ["Home", "Engineering", "History", "Prompt Management", "Settings"],
-                icons=['house', 'gear', 'clock-history', 'journal-text', 'gear'],
-                menu_icon="cast",
-                default_index=0,
-                orientation="vertical",
-                styles={
-                    "container": {"padding": "5!important", "background-color": "#fafafa"},
-                    "icon": {"color": "orange", "font-size": "25px"},
-                    "nav-link": {"font-size": "16px", "text-align": "left", "margin": "0px", "--hover-color": "#eee"},
-                    "nav-link-selected": {"background-color": "#02ab21"},
-                }
-            )
-
-            st.button("Logout", on_click=lambda: st.session_state.update({"logged_in": False}))
-
-        if selected_tab == "Home":
-            home_page()
-        elif selected_tab == "Engineering":
-            engineering_page()
-        elif selected_tab == "History":
-            history_page()
-        elif selected_tab == "Prompt Management":
-            prompt_management_page()
-        elif selected_tab == "Settings":
-            settings_page()
-
+        launch_home()
     else:
         login_screen()
+
+
+def launch_home():
+    # Place option menu in the sidebar
+    with st.sidebar:
+        selected_tab = option_menu(
+            "Navigation",
+            ["Home", "Engineering", "History", "Prompt Management", "Settings"],
+            icons=['house', 'gear', 'clock-history', 'journal-text', 'gear'],
+            menu_icon="cast",
+            default_index=0,
+            orientation="vertical",
+            styles={
+                "container": {"padding": "5!important", "background-color": "#fafafa"},
+                "icon": {"color": "orange", "font-size": "25px"},
+                "nav-link": {"font-size": "16px", "text-align": "left", "margin": "0px", "--hover-color": "#eee"},
+                "nav-link-selected": {"background-color": "#02ab21"},
+            }
+        )
+
+        st.button("Logout", on_click=lambda: st.session_state.update({"logged_in": False}))
+    if selected_tab == "Home":
+        home_page()
+    elif selected_tab == "Engineering":
+        engineering_page()
+    elif selected_tab == "History":
+        history_page()
+    elif selected_tab == "Prompt Management":
+        prompt_management_page()
+    elif selected_tab == "Settings":
+        settings_page()
+
 
 # Check if Pandoc is installed
 def is_pandoc_installed():
