@@ -57,7 +57,7 @@ def engineering_page():
     if job_action == "Select Existing Code":
         selected_job = st.selectbox("Select Code Artifact(s)", get_jobs(), help="Choose from existing code artifact.")
     else:
-        with st.expander("Upload New Code Artifacts"):
+        with st.expander("Upload New Code Artifacts",expanded=True):
             uploaded_files = st.file_uploader(
                 "Upload mainframe Code artifacts",
                 type=["jcl", "cob", "proc", "cpy", "sbr"],
@@ -223,12 +223,13 @@ def generate_reverse_engineering(cobol_code,job_name):
             with open(file_path, "rb") as f:
                 response = f.read()
     else:
-        response = reverse_engineer_cobol_program(cobol_code)
-        file_path = os.path.join("uploaded_artifacts", f"{job_name}-reverse-engineering.txt")
-        with open(file_path, "wb") as f:
-            f.write(response.encode('utf-8'))
-        update_job_with_generated_doc(job_name,file_path)
-        print("Done with reverse engineering")
+        with st.spinner("Wait for it..."):
+            response = reverse_engineer_cobol_program(cobol_code)
+            file_path = os.path.join("uploaded_artifacts", f"{job_name}-reverse-engineering.txt")
+            with open(file_path, "wb") as f:
+                f.write(response.encode('utf-8'))
+            update_job_with_generated_doc(job_name,file_path)
+            print("Done with reverse engineering")
     # Display an icon alongside a download button using Streamlit components
     # Image URL or path to use as the button]
     # Encode the response for download
@@ -249,7 +250,7 @@ def generate_reverse_engineering(cobol_code,job_name):
     st.markdown(button_html, unsafe_allow_html=True)
 
     # Use an expander to show the summary preview
-    with st.expander("View SUMMARY"):
+    with st.expander("View SUMMARY",expanded=True):
         st.markdown(response)
 
 
@@ -262,13 +263,13 @@ def generate_forward_engineering(job_name, task, configurations):
         if file_path:
             with open(file_path, "rb") as f:
                 response = f.read()
-
-        response = forward_engineer_cobol_program(response)
-        file_path = os.path.join("uploaded_artifacts", f"{job_name}-forward-engineering.txt")
-        with open(file_path, "wb") as f:
-            f.write(response.encode('utf-8'))
-        update_job_with_generated_doc(job_name, file_path)
-        print("Done with forward engineering")
+        with st.spinner("Wait for it..."):
+            response = forward_engineer_cobol_program(response)
+            file_path = os.path.join("uploaded_artifacts", f"{job_name}-forward-engineering.txt")
+            with open(file_path, "wb") as f:
+                f.write(response.encode('utf-8'))
+            update_job_with_generated_doc(job_name, file_path)
+            print("Done with forward engineering")
 
     b64 = base64.b64encode(response.encode()).decode()
 
