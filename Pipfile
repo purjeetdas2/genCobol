@@ -18,6 +18,7 @@ markdown2 = "*"
 streamlit-elements = "*"
 streamlit-option-menu = "*"
 typing-extensions = "*"
+pyarrow = "*"
 
 [dev-packages]
 
