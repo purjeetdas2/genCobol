@@ -17,6 +17,7 @@ pypandoc = "*"
 markdown2 = "*"
 streamlit-elements = "*"
 streamlit-option-menu = "*"
+typing-extensions = "*"
 
 [dev-packages]
 
