@@ -8,11 +8,12 @@ def insert_job(name):
     cursor.execute("INSERT OR IGNORE INTO jobs (name) VALUES (?)", (name,))
     conn.commit()
     conn.close()
+    return get_job(name)
 
 def update_job_with_generated_doc(name,generated_doc):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("update artifacts set generated_doc = ? where job_id = ? ", (name,generated_doc))
+    cursor.execute("update artifacts set generated_doc = ? where job_name = ? ", (name,generated_doc))
     conn.commit()
     conn.close()
 
@@ -28,7 +29,7 @@ def get_jobs():
 def get_job(job_name):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM jobs WHERE job_id = ?", (job_name,))
+    cursor.execute("SELECT * FROM jobs WHERE name = ?", (job_name,))
     job = cursor.fetchone()
     conn.close()
     return job
@@ -36,12 +37,12 @@ def get_job(job_name):
 def get_generated_doc_for_job(job_name):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT art.generated_doc FROM jobs jb JOIN artifacts art ON jb.name = art.job_id WHERE jb.name = ? ", (job_name,))
+    cursor.execute("SELECT art.generated_doc FROM jobs jb JOIN artifacts art ON jb.name = art.job_name WHERE jb.name = ? ", (job_name,))
     generated_doc = cursor.fetchone()
     conn.close()
     return generated_doc
 
-def insert_artifact(job_name, filename, filepath, engineering_type):
+def insert_artifact(job_id,job_name, filename, filepath, engineering_type):
     artifacts = get_artifacts(job_name)
     job = None;
     for artifact in artifacts:
@@ -51,12 +52,11 @@ def insert_artifact(job_name, filename, filepath, engineering_type):
 
     if job is None:
         print(f"inserting the artifacts: {filename}")
-        job_id = job_name
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO artifacts (job_id, filename, filepath,generated_doc, engineering_type) VALUES (?, ?, ?, ?,?)",
-            (job_id, filename, filepath,"", engineering_type)
+            "INSERT INTO artifacts (job_id, filename, filepath,generated_doc, engineering_type , job_name) VALUES (?,?,?,?,?,?)",
+            (job_id, filename, filepath,"", engineering_type,job_name)
         )
         conn.commit()
         conn.close()
@@ -70,7 +70,7 @@ def get_artifacts(job_name):
         sql_query = """
             SELECT art.filename, art.filepath, jb.name 
             FROM jobs jb 
-            JOIN artifacts art ON jb.name = art.job_id 
+            JOIN artifacts art ON jb.name = art.job_name 
             WHERE jb.name = ?
         """
         cursor.execute(sql_query, (job_name,))

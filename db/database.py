@@ -20,6 +20,7 @@ def create_db():
     cursor.execute(''' CREATE TABLE IF NOT EXISTS artifacts (
         id INTEGER PRIMARY KEY,
         job_id INTEGER,
+        job_name TEXT,
         filename TEXT,
         filepath TEXT,
         generated_doc TEXT,

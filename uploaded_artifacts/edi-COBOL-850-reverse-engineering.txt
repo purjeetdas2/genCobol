@@ -1,0 +1,39 @@
+COBOL Program Documentation
+
+Summary:
+1. State the High-Level Purpose:
+   - The high-level purpose of the COBOL program titled "EDI850Processor" is to process input data from a file in a specific format (edi850.csv), validate each record, transform the data as per certain rules, and write the transformed data to an output file (output.csv). The program is essentially converting input records into a different format based on validation criteria.
+
+2. Break Down Key Divisions:
+   - Identification Division:
+     - Program Name: EDI850Processor
+     - Purpose: The program processes EDI 850 purchase order data.
+
+   - Environment Division:
+     - Configuration: Specifies the input file ('edi850.csv') and output file ('output.csv') with a line sequential organization.
+
+   - Data Division:
+     - Defines two file sections: InputFile and OutputFile containing specific data structures of purchase order information.
+  
+   - Procedure Division:
+     - The main logic is in the PROCEDURE DIVISION.
+     - It starts by opening input and output files, then reads input records until the end of file flag is set.
+     - Each input record is validated, transformed, and written to the output file if valid.
+
+3. Explain the Data Flow:
+   - The program reads input records from 'edi850.csv' file, validates each record against quantity and price criteria, transforms the data, and writes the transformed records to 'output.csv'.
+
+4. Detail Key Variables and Structures:
+   - Important data elements include fields for Order ID, Buyer ID, Date, Item ID, Item Quantity, and Item Unit Price in both the InputRecord and OutputRecord structures.
+   - Key variables like WS-EOF-FLAG for end-of-file indication and WS-VALID-RECORD for record validation are used.
+
+5. Explain Control Flow and Logic:
+   - The main logic involves reading, validating, transforming, and writing records in a loop until the end of the input file.
+   - There are Perform loops for validation and transformation of each record, and IF conditions to handle valid or invalid records.
+
+6. Simplify Complex Operations:
+   - The program processes purchase order data by checking quantity and price, transforming the data, and calculating total price based on quantity and unit price.
+
+7. Summarize the Main Functionality:
+   - The program reads purchase order data from an input file, validates each record, transforms the data format, calculates total price, and writes the transformed data to an output file. 
+   - Potential areas for improvement could involve error handling, more extensive validation rules, or optimization for efficiency based on expected data volumes.

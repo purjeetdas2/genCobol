@@ -20,7 +20,7 @@ def generate_code(business_rules_text, prompt_template):
 def forward_engineer_cobol_program(business_rules_text):
     # Prompt template for OpenAI, structured to guide the transformation of COBOL rules into Java
     prompt_template = (
-        "You are tasked with generating Java code from the following COBOL business rules. \n"
+        "You are tasked with generating Spring Boot Application from the following COBOL business rules. \n"
         "The Java application should utilize best practices and reflect efficient logic translation. Here's how to proceed:\n"
         "- Convert COBOL file operations to Java file handling.\n"
         "- Establish equivalent Java data structures (use classes like Order, Item).\n"
@@ -35,6 +35,8 @@ def forward_engineer_cobol_program(business_rules_text):
     print("Business rules sent for forward engineering:\n", business_rules_text)
 
     generated_code_text = generate_code(business_rules_text, prompt_template)
+
+
 
     # Compile all information into a comprehensive document
     document = (
