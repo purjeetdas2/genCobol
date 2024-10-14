@@ -19,6 +19,7 @@ streamlit-elements = "*"
 streamlit-option-menu = "*"
 typing-extensions = "*"
 pyarrow = "*"
+numpy = "*"
 
 [dev-packages]
 
